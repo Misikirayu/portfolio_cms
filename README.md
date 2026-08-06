@@ -21,6 +21,8 @@ reserved for rare high-emphasis hover states. Typography is Inter (UI/body) pair
 monospace face (Geist Mono, falls back to system monospace) for labels, tags, and timestamps —
 a nod to the terminal/code aesthetic.
 
+**Theme & Dark Mode:** A dynamic dark mode toggler is built directly into the navigation header. Selecting it flips the color variables (`ink` and `paper`) seamlessly, automatically reversing the foreground, background, borders, and interactive elements.
+
 **Signature element:** tech tags and status pills are styled as *git-diff markers*
 (`+tag` / `-tag`) instead of generic rounded pills — a small detail that ties the UI language
 directly to the subject (a developer's day-to-day tool).
@@ -41,7 +43,11 @@ cp .env.example .env
 
 Edit `.env`:
 
-- `DATABASE_URL` — your MySQL connection string
+- `DB_HOST` — Database host (e.g. `127.0.0.1` or `localhost`)
+- `DB_PORT` — Database port (default: `3306`)
+- `DB_USER` — Database user (e.g. `root`)
+- `DB_PASSWORD` — Database password
+- `DB_NAME` — Database name (e.g. `portfolio`)
 - `NEXTAUTH_SECRET` — generate with `openssl rand -base64 32`
 - `NEXTAUTH_URL` — `http://localhost:3000` in development
 - `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` — used once by the seed script to create your
@@ -113,5 +119,5 @@ pages/api/*                  Public + admin-protected REST endpoints
 ## Deployment
 
 Any Node-hosting platform that supports Next.js SSR/ISR works (Vercel, Render, a VPS behind
-nginx, etc.). Make sure `DATABASE_URL` points at a reachable MySQL instance and that
+nginx, etc.). Make sure database environment variables (`DB_HOST`, `DB_PORT`, etc.) point to a reachable MySQL instance and that
 `NEXTAUTH_URL` matches your production domain exactly (including protocol).
