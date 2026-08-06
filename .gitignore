@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+portfolio/node_modules/
+
+# Next.js Build Output
+.next/
+portfolio/.next/
+out/
+portfolio/out/
+
+# Environment Files (contains database credentials and secrets)
+.env
+.env*.local
+portfolio/.env
+portfolio/.env*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# System Files
+.DS_Store
+Thumbs.db

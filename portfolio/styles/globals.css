@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-ink: #0A0A0A;
+  --color-paper: #FFFFFF;
+  --color-line: #1F1F1F;
+  --color-line-soft: #E5E5E5;
+  --color-mute: #7A7A7A;
+}
+
+html.dark {
+  color-scheme: dark;
+  --color-ink: #FFFFFF;
+  --color-paper: #0A0A0A;
+  --color-line: #E5E5E5;
+  --color-line-soft: #1F1F1F;
+  --color-mute: #A0A0A0;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  scroll-behavior: smooth;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #E53E3E;
+  color: #FFFFFF;
+}
+
+:focus-visible {
+  outline: 2px solid #E53E3E;
+  outline-offset: 2px;
+}
+
+/* Signature element: diff-marker tags used throughout for tech/tags/status,
+   a direct nod to git diff (+added / -removed) rather than generic pill badges. */
+.diff-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--color-line);
+  line-height: 1.4;
+}
+
+.diff-tag--plus::before {
+  content: "+";
+  color: #E53E3E;
+}
+
+.diff-tag--minus::before {
+  content: "-";
+  color: #7A7A7A;
+}
+
+.cursor::after {
+  content: "";
+  display: inline-block;
+  width: 0.55ch;
+  height: 1em;
+  margin-left: 0.15em;
+  background: #E53E3E;
+  vertical-align: -0.1em;
+  animation: blink 1s step-end infinite;
+}
+
+.rule {
+  height: 1px;
+  background: var(--color-line);
+}
+
+.grain {
+  background-image: radial-gradient(var(--color-ink) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
