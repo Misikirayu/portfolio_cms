@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Download } from "lucide-react";
 
 export default function Hero({ profile }) {
   const name = profile?.fullName || "Your Name";
@@ -39,7 +40,7 @@ export default function Hero({ profile }) {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="mt-10 flex flex-wrap gap-4"
+        className="mt-10 flex flex-wrap gap-4 items-center"
       >
         <a
           href="#work"
@@ -53,6 +54,27 @@ export default function Hero({ profile }) {
         >
           Get in Touch
         </a>
+        {profile?.resumeUrl && (
+          <div className="flex gap-2">
+            <a
+              href={profile.resumeUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="border border-ink px-6 py-3 font-mono text-xs uppercase tracking-widest text-ink transition-colors hover:text-signal hover:border-signal"
+            >
+              Resume
+            </a>
+            <a
+              href={profile.resumeUrl}
+              download
+              className="flex items-center justify-center border border-ink px-4 py-3 text-ink transition-colors hover:text-signal hover:border-signal"
+              aria-label="Download Resume"
+              title="Download Resume"
+            >
+              <Download size={14} />
+            </a>
+          </div>
+        )}
       </motion.div>
     </section>
   );
