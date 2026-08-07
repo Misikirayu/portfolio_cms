@@ -44,12 +44,12 @@ export default function AdminProjectsList() {
         ) : (
           <div className="border border-line-soft">
             {projects.map((p) => (
-              <div key={p.id} className="flex items-center justify-between border-b border-line-soft p-4 last:border-b-0">
+              <div key={p.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-line-soft p-4 gap-4 last:border-b-0">
                 <div>
                   <p className="font-medium">{p.title}</p>
                   <p className="font-mono text-xs text-mute">/{p.slug} &middot; order {p.orderIndex}</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <button
                     onClick={() => toggleFeatured.mutate({ id: p.id, featured: !p.featured })}
                     className={`diff-tag ${p.featured ? "diff-tag--plus" : "diff-tag--minus"}`}

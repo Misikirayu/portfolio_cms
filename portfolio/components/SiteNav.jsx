@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Sun, Moon } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sun, Moon, Menu, X } from "lucide-react";
 
 const links = [
   { href: "#work", label: "Work" },
@@ -12,6 +12,7 @@ const links = [
 
 export default function SiteNav({ fullName }) {
   const [theme, setTheme] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const isDark = document.documentElement.classList.contains("dark");
@@ -42,7 +43,7 @@ export default function SiteNav({ fullName }) {
           {(fullName || "portfolio").toLowerCase().replace(/\s+/g, "-")}
           <span className="text-signal">.dev</span>
         </Link>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <nav className="hidden gap-8 sm:flex">
             {links.map((l) => (
               <a
@@ -68,8 +69,42 @@ export default function SiteNav({ fullName }) {
               <Moon size={14} className="stroke-[2.5]" />
             )}
           </button>
+
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="flex h-8 w-8 items-center justify-center border border-line bg-ink text-paper transition-all hover:scale-105 active:scale-95 duration-250 sm:hidden"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={14} /> : <Menu size={14} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden border-t border-line-soft bg-paper sm:hidden"
+          >
+            <div className="flex flex-col gap-4 px-6 py-5">
+              {links.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-mono text-xs uppercase tracking-widest text-ink/70 transition-colors duration-250 hover:text-signal"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

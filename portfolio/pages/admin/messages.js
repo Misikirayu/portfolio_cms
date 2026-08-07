@@ -37,8 +37,8 @@ export default function AdminMessages() {
           <div className="border border-line-soft">
             {messages.map((m) => (
               <div key={m.id} className={`border-b border-line-soft p-5 last:border-b-0 ${m.isRead ? "" : "bg-signal/[0.04]"}`}>
-                <div className="flex items-start justify-between gap-4">
-                  <div>
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div className="flex-1">
                     <p className="font-medium">
                       {m.name} <span className="font-mono text-xs text-mute">&lt;{m.email}&gt;</span>
                     </p>
@@ -48,7 +48,7 @@ export default function AdminMessages() {
                       {new Date(m.createdAt).toLocaleString()}
                     </p>
                   </div>
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end">
                     <span className={`diff-tag ${m.isRead ? "diff-tag--minus" : "diff-tag--plus"}`}>
                       {m.isRead ? "Read" : "Unread"}
                     </span>

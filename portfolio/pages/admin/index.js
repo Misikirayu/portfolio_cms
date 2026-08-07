@@ -24,7 +24,7 @@ export default function AdminOverview() {
         <title>Admin Overview</title>
       </Head>
       <AdminShell title="Overview">
-        <div className="grid grid-cols-2 gap-px border border-line-soft sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-px border border-line-soft sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {CARDS.map((c) => (
             <div key={c.key} className="border border-line-soft bg-paper p-6">
               <p className="font-mono text-xs uppercase tracking-widest text-mute">{c.label}</p>

@@ -69,11 +69,11 @@ export default function AdminSkills() {
         <title>Admin — Skills</title>
       </Head>
       <AdminShell title="Skills">
-        <form onSubmit={handleSubmit(onSubmit)} className="mb-10 grid max-w-3xl grid-cols-2 gap-4 border border-line-soft p-6 sm:grid-cols-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="mb-10 grid max-w-3xl grid-cols-1 gap-4 border border-line-soft p-6 sm:grid-cols-5">
           <input
             {...register("name", { required: true })}
             placeholder="Skill name"
-            className="col-span-2 border border-line-soft bg-transparent px-3 py-2 text-sm outline-none focus:border-signal sm:col-span-1"
+            className="border border-line-soft bg-transparent px-3 py-2 text-sm outline-none focus:border-signal"
           />
           <select
             {...register("category")}
@@ -110,12 +110,12 @@ export default function AdminSkills() {
         ) : (
           <div className="border border-line-soft">
             {skills?.map((s) => (
-              <div key={s.id} className="flex items-center justify-between border-b border-line-soft p-4 last:border-b-0">
+              <div key={s.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-line-soft p-4 gap-4 last:border-b-0">
                 <div>
                   <p className="font-medium">{s.name}</p>
                   <p className="font-mono text-xs text-mute">{s.category} &middot; {s.proficiency}/5 &middot; order {s.orderIndex}</p>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex items-center gap-3">
                   <button onClick={() => startEdit(s)} className="font-mono text-xs uppercase tracking-widest text-ink/70 hover:text-signal">
                     Edit
                   </button>

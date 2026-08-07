@@ -74,7 +74,7 @@ export default function AdminExperience() {
       </Head>
       <AdminShell title="Experience">
         <form onSubmit={handleSubmit(onSubmit)} className="mb-10 max-w-2xl space-y-4 border border-line-soft p-6">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input
               {...register("roleTitle", { required: true })}
               placeholder="Role title"
@@ -91,7 +91,7 @@ export default function AdminExperience() {
             placeholder="Location"
             className="w-full border border-line-soft bg-transparent px-3 py-2 text-sm outline-none focus:border-signal"
           />
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <input
               {...register("startDate", { required: true })}
               placeholder="Start (2023-01)"
@@ -135,14 +135,14 @@ export default function AdminExperience() {
         ) : (
           <div className="border border-line-soft">
             {entries?.map((e) => (
-              <div key={e.id} className="flex items-center justify-between border-b border-line-soft p-4 last:border-b-0">
+              <div key={e.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-line-soft p-4 gap-4 last:border-b-0">
                 <div>
                   <p className="font-medium">{e.roleTitle} <span className="text-mute">· {e.company}</span></p>
                   <p className="font-mono text-xs text-mute">
                     {e.startDate} — {e.isCurrent ? "Present" : e.endDate || "—"} &middot; order {e.orderIndex}
                   </p>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex items-center gap-3">
                   <button onClick={() => startEdit(e)} className="font-mono text-xs uppercase tracking-widest text-ink/70 hover:text-signal">
                     Edit
                   </button>
