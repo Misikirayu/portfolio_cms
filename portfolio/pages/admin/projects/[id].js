@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -18,7 +18,7 @@ export default function AdminProjectForm() {
     enabled: !!id && !isNew,
   });
 
-  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm({
+  const { register, handleSubmit, reset, setValue, watch, formState: { isSubmitting } } = useForm({
     defaultValues: {
       title: "",
       slug: "",
@@ -32,6 +32,40 @@ export default function AdminProjectForm() {
       orderIndex: 0,
     },
   });
+
+  const watchThumbnailUrl = watch("thumbnailUrl");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+
+  const handleUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setUploadError("");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Upload failed");
+      }
+
+      const data = await res.json();
+      setValue("thumbnailUrl", data.url, { shouldDirty: true });
+    } catch (err) {
+      setUploadError(err.message || "Failed to upload image.");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     if (data) reset(data);
@@ -139,12 +173,47 @@ export default function AdminProjectForm() {
 
           <div>
             <label className="mb-1 block font-mono text-xs uppercase tracking-widest text-mute">
-              Thumbnail URL
+              Thumbnail
             </label>
-            <input
-              {...register("thumbnailUrl")}
-              className="w-full border border-line-soft bg-transparent px-4 py-3 text-sm outline-none focus:border-signal"
-            />
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+              <div className="flex-1">
+                <input
+                  {...register("thumbnailUrl")}
+                  placeholder="https://example.com/image.jpg or upload below"
+                  className="w-full border border-line-soft bg-transparent px-4 py-3 text-sm outline-none focus:border-signal"
+                />
+              </div>
+              <div className="relative flex items-center">
+                <input
+                  type="file"
+                  id="thumbnail-upload"
+                  accept="image/*"
+                  onChange={handleUpload}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="thumbnail-upload"
+                  className="cursor-pointer border border-line bg-ink px-6 py-3 font-mono text-xs uppercase tracking-widest text-paper hover:bg-signal hover:border-signal transition-colors inline-block whitespace-nowrap"
+                >
+                  {uploading ? "Uploading…" : "Upload File"}
+                </label>
+              </div>
+            </div>
+            {uploadError && (
+              <p className="mt-1 font-mono text-xs text-signal">{uploadError}</p>
+            )}
+            {watchThumbnailUrl && (
+              <div className="relative mt-3 aspect-video w-32 overflow-hidden border border-line-soft bg-paper">
+                <img
+                  src={watchThumbnailUrl}
+                  alt="Thumbnail preview"
+                  className="h-full w-full object-cover"
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
