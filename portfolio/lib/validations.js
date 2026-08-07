@@ -6,7 +6,7 @@ const profileSchema = z.object({
   tagline: z.string().max(255).optional().nullable(),
   bio: z.string().optional().nullable(),
   location: z.string().max(191).optional().nullable(),
-  resumeUrl: z.string().url().optional().nullable().or(z.literal("")),
+  resumeUrl: z.string().url().or(z.string().startsWith("/")).optional().nullable().or(z.literal("")),
   email: z.string().email().optional().nullable().or(z.literal("")),
   githubUrl: z.string().url().optional().nullable().or(z.literal("")),
   linkedinUrl: z.string().url().optional().nullable().or(z.literal("")),
